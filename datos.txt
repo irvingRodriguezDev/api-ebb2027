@@ -1,0 +1,12 @@
+curl -X POST https://pw3s2axyqd.execute-api.us-east-2.amazonaws.com/Prod/register/ \
+-H "Content-Type: application/json" \
+-d '{
+  "fullname": "Irving Rodriguez Felix",
+  "email": "irvingrodriguez@ebb.com.mx",
+  "phone": "7225968435",
+  "bussinessName": "Studio Pro",
+  "profile": "Barber",
+  "accessType": "VIP"
+}'
+
+https://pw3s2axyqd.execute-api.us-east-2.amazonaws.com/Prod/register
