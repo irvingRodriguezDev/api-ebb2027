@@ -48,23 +48,43 @@ export const handler = async (event) => {
       profile,
     } = session.metadata;
 
-    const ticketCount =
-      accessType === "GROUP_SINGLE" || accessType === "GROUP_TWO" ? 11 : 1;
+    // Usamos un objeto de referencia para evitar errores de comparación
+    const ticketConfig = {
+      "UN DÍA": 1,
+      "DOS DÍAS": 1, // Corregido el typo de "TOW"
+      "GRUPAL UN DÍA": 11,
+      "GRUPAL DOS DÍAS": 11,
+    };
 
-    // --- CORRECCIÓN 1: Crear un array para guardar los códigos ---
+    // Si accessType viene vacío o mal escrito, ticketCount será 1 por seguridad
+    const ticketCount = ticketConfig[accessType] || 1;
+
+    console.log(
+      `Procesando compra para: ${customer_email}. Tipo: ${accessType}. Boletos a generar: ${ticketCount}`,
+    );
+
     const generatedTickets = [];
-
+    const accessLabels = {
+      "UN DÍA": "UN DÍA",
+      "DOS DÍAS": "DOS DÍAS", // Corregido el typo de "TOW"
+      "GRUPAL UN DÍA": "GRUPAL UN DÍA",
+      "GRUPAL DOS DÍAS": "GRUPAL DOS DÍAS",
+    };
+    const labelAccessType = accessLabels[accessType] || "NO ESPECIFICADO";
+    // Generamos todos los códigos PRIMERO
     for (let i = 0; i < ticketCount; i++) {
-      const uniqueCode = `EBB27-${Math.random().toString(36).toUpperCase().substring(2, 10)}`;
+      generatedTickets.push(
+        `EBB27-${Math.random().toString(36).toUpperCase().substring(2, 10)}`,
+      );
+    }
 
-      // Guardamos el código en nuestro array
-      generatedTickets.push(uniqueCode);
-
+    // Guardamos en DynamoDB (Podrías usar BatchWrite para que sea 1 sola petición, pero PutCommand está bien)
+    for (const code of generatedTickets) {
       await docClient.send(
         new PutCommand({
           TableName: process.env.TABLE_NAME,
           Item: {
-            ticketCode: uniqueCode,
+            ticketCode: code,
             email: customer_email,
             fullname: fullname,
             phone: phone,
@@ -81,58 +101,58 @@ export const handler = async (event) => {
 
     // --- CORRECCIÓN 2: Usar generatedTickets.map() en el HTML ---
     const emailParams = {
-      Source: process.env.SOURCE_EMAIL,
+      Source: "boletos@expobellezaybarberias.com",
       Destination: { ToAddresses: [customer_email] },
       Message: {
-        Subject: { Data: "✨ Tu pase confirmado - Expo Belleza & Barber 2027" },
+        Subject: {
+          Data: `✨ ${ticketCount > 1 ? "Tus pases confirmados" : "Tu pase confirmado"} - Expo Belleza & Barbería 2027`,
+        },
         Body: {
           Html: {
             Charset: "UTF-8",
             Data: `
           <!DOCTYPE html>
           <html>
-          <body style="margin: 0; padding: 0; background-color: #f4f7f6; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+          <body style="margin: 0; padding: 0; background-color: #f4f7f6; font-family: 'Segoe UI', Arial, sans-serif;">
             <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #f4f7f6; padding: 20px;">
               <tr>
                 <td align="center">
                   <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
                     
                     <tr>
-                      <td align="center" style="background-color: #05383F; padding: 40px 20px;">
-                        <h1 style="color: #ffffff; margin: 0; font-size: 28px; letter-spacing: 2px; text-transform: uppercase;">Expo Belleza & Barber</h1>
-                        <p style="color: #a0d1d1; margin-top: 10px; font-size: 16px;">2027 | WTC México</p>
+                      <td align="center" style="background-color: #05383F; padding: 30px 20px;">
+                        <h1 style="color: #ffffff; margin: 0; font-size: 24px; text-transform: uppercase;">Expo Belleza & Barbería</h1>
+                        <p style="color: #a0d1d1; margin-top: 5px; font-size: 14px;">2027 | WTC México</p>
                       </td>
                     </tr>
 
                     <tr>
-                      <td style="padding: 40px 30px;">
-                        <h2 style="color: #003333; margin: 0; font-size: 22px;">¡Hola, ${fullname}!</h2>
-                        <p style="color: #555; line-height: 1.6; font-size: 16px;">
-                          Tu pago ha sido procesado con éxito. Prepárate para vivir la experiencia más importante de la industria de la belleza en México.
-                        </p>
+                      <td style="padding: 30px;">
+                        <h2 style="color: #003333; margin: 0; font-size: 20px;">¡Hola, ${fullname}!</h2>
+                        <p style="color: #555; font-size: 15px;">Tu pago ha sido procesado con éxito. Aquí tienes tus accesos oficiales:</p>
                         
-                        <div style="margin: 30px 0; border-left: 4px solid #05383F; padding-left: 20px; background-color: #f0fafa;">
-                          <p style="margin: 5px 0; font-size: 14px; color: #05383F;"><strong>Tipo de Acceso:</strong> ${accessType}</p>
-                          <p style="margin: 5px 0; font-size: 14px; color: #05383F;"><strong>Estatus:</strong> Confirmado (PAGADO)</p>
+                        <div style="margin: 20px 0; border-left: 4px solid #05383F; padding: 10px 15px; background-color: #f0fafa;">
+                          <p style="margin: 0; font-size: 14px; color: #05383F;"><strong>Tipo de Acceso:</strong> ${labelAccessType}</p>
+                          <p style="margin: 5px 0 0; font-size: 14px; color: #05383F;"><strong>Cantidad:</strong> ${ticketCount} boleto(s)</p>
                         </div>
 
-                        <h3 style="color: #003333; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 10px;">Tus Boletos Digitales</h3>
+                        <h3 style="color: #003333; font-size: 16px; border-bottom: 1px solid #eee; padding-bottom: 8px;">Tus Boletos</h3>
                         
                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                           ${generatedTickets
                             .map(
                               (code) => `
                             <tr>
-                              <td style="padding: 15px 0; border-bottom: 1px solid #f0f0f0;">
+                              <td style="padding: 12px 0; border-bottom: 1px solid #f0f0f0;">
                                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                   <tr>
                                     <td>
-                                      <span style="display: block; font-size: 12px; color: #999; text-transform: uppercase;">Código Único</span>
-                                      <span style="font-size: 20px; font-weight: bold; color: #05383F; font-family: monospace;">${code}</span>
+                                      <span style="display: block; font-size: 11px; color: #999; text-transform: uppercase;">Código</span>
+                                      <span style="font-size: 18px; font-weight: bold; color: #05383F; font-family: 'Courier New', Courier, monospace;">${code}</span>
                                     </td>
                                     <td align="right">
-                                      <a href="https://excogitable-mavis-sulfureous.ngrok-free.dev/ticket/${code}" 
-                                         style="background-color: #05383F; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: bold; display: inline-block;">
+                                      <a href="https://expobellezaybarberias.com/ticket/${code}" 
+                                         style="background-color: #05383F; color: #ffffff; padding: 8px 16px; text-decoration: none; border-radius: 4px; font-size: 13px; font-weight: bold; display: inline-block;">
                                         Ver QR
                                       </a>
                                     </td>
@@ -145,17 +165,8 @@ export const handler = async (event) => {
                             .join("")}
                         </table>
 
-                        <p style="margin-top: 30px; font-size: 14px; color: #888; text-align: center;">
-                          Presenta estos códigos en la zona de registro para obtener tu pulsera oficial.
-                        </p>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td align="center" style="background-color: #f9f9f9; padding: 20px; border-top: 1px solid #eee;">
-                        <p style="font-size: 12px; color: #aaa; margin: 0;">
-                          &copy; 2026 Expo Belleza & Barber. Todos los derechos reservados.<br>
-                          World Trade Center, CDMX.
+                        <p style="margin-top: 25px; font-size: 13px; color: #05383F; text-align: center; font-weight: bold;">
+                          ⚠️ Presenta estos códigos en el área de registro del WTC para recibir tus pulseras.
                         </p>
                       </td>
                     </tr>
@@ -175,11 +186,7 @@ export const handler = async (event) => {
       console.log("Correo enviado exitosamente a:", customer_email);
     } catch (error) {
       console.error("Error enviando correo a través de SES:", error);
-      // Tip: No retornes error aquí para no confundir a Stripe,
-      // ya que el pago y la DB sí fueron exitosos.
     }
-    // AQUÍ LLAMAREMOS A LA FUNCIÓN DE EMAIL (PRÓXIMO PASO)
-    // await sendEmail(customer_email, tickets);
   }
 
   return { statusCode: 200, body: JSON.stringify({ received: true }) };

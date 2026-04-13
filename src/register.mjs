@@ -18,13 +18,19 @@ export const handler = async (event) => {
   try {
     const body = JSON.parse(event.body);
     const { fullname, email, phone, businessName, profile, accessType } = body;
-
+    const accessLabels = {
+      ONE_DAY: "UN DÍA",
+      TWO_DAYS: "DOS DÍAS", // Corregido el typo de "TOW"
+      GROUP_SINGLE: "GRUPAL UN DÍA",
+      GROUP_TWO: "GRUPAL DOS DÍAS",
+    };
+    const labelAccessType = accessLabels[accessType] || "NO ESPECIFICADO";
     // 1. Mapeo de precios de Stripe (Usa tus IDs reales)
     const priceIds = {
-      SINGLE_DAY: process.env.PRICE_SINGLE_DAY, // 1 día - $150
-      TWO_DAYS: process.env.PRICE_TWO_DAYS, // 2 días - $200
-      GROUP_SINGLE: process.env.PRICE_GROUP_SINGLE, // Grupal 1 día (11 pases) - $1500
-      GROUP_TWO: process.env.PRICE_GROUP_TWO, // Grupal 2 días (11 pases) - $2000
+      SINGLE_DAY: "price_1TKPQ3GhlSOTRiSh5YsrtiSL", // 1 día - $150
+      TWO_DAYS: "price_1TKPQUGhlSOTRiSh4sne9uR4", // 2 días - $200
+      GROUP_SINGLE: "price_1TKPR2GhlSOTRiShVYOyA8Q7", // Grupal 1 día (11 pases) - $1500
+      GROUP_TWO: "price_1TKPRVGhlSOTRiSh7ALXkggK", // Grupal 2 días (11 pases) - $2000
     };
 
     // 3. Crear Sesión de Stripe
@@ -32,15 +38,16 @@ export const handler = async (event) => {
       payment_method_types: ["card"],
       line_items: [{ price: priceIds[accessType], quantity: 1 }],
       mode: "payment",
+      locale: "es",
       customer_email: email,
-      success_url: `https://excogitable-mavis-sulfureous.ngrok-free.dev/payment-success?email=${email}`,
-      cancel_url: `https://excogitable-mavis-sulfureous.ngrok-free.dev`,
+      success_url: `https://expobellezaybarberias.com/payment-success?email=${email}`,
+      cancel_url: `https://expobellezaybarberias.com/`,
       metadata: {
         fullname: fullname,
         customer_email: email,
         phone: phone,
         businessName: businessName,
-        accessType: accessType,
+        accessType: labelAccessType,
         profile: profile,
       },
     });
