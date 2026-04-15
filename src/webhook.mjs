@@ -4,6 +4,7 @@ import {
   DynamoDBDocumentClient,
   PutCommand,
   UpdateCommand,
+  ScanCommand,
 } from "@aws-sdk/lib-dynamodb";
 import Stripe from "stripe";
 
@@ -39,6 +40,24 @@ export const handler = async (event) => {
 
   if (stripeEvent.type === "checkout.session.completed") {
     const session = stripeEvent.data.object;
+    const sessionId = session.id;
+
+    const checkExisting = await docClient.send(
+      new ScanCommand({
+        TableName: "EBB_Attendees_2027",
+        FilterExpression: "sessionId = :s",
+        ExpressionAttributeValues: { ":s": sessionId },
+        Limit: 1, // Solo necesitamos saber si hay al menos uno
+      }),
+    );
+
+    if (checkExisting.Items && checkExisting.Items.length > 0) {
+      console.log(`⚠️ Sesión ${sessionId} ya procesada. Evitando duplicidad.`);
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ message: "Compra ya registrada anteriormente" }),
+      };
+    }
     const {
       customer_email,
       accessType,
@@ -85,6 +104,7 @@ export const handler = async (event) => {
           TableName: process.env.TABLE_NAME,
           Item: {
             ticketCode: code,
+            sessionId: session.id,
             email: customer_email,
             fullname: fullname,
             phone: phone,
