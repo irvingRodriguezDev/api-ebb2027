@@ -125,7 +125,7 @@ export const handler = async (event) => {
       Destination: { ToAddresses: [customer_email] },
       Message: {
         Subject: {
-          Data: `✨ ${ticketCount > 1 ? "Tus pases confirmados" : "Tu pase confirmado"} - Expo Belleza & Barbería 2027`,
+          Data: `✨ ${ticketCount > 1 ? "Tus pases confirmados" : "Tu pase confirmado"} - Expo Belleza & Barberías 2027`,
         },
         Body: {
           Html: {
@@ -141,7 +141,7 @@ export const handler = async (event) => {
                     
                     <tr>
                       <td align="center" style="background-color: #05383F; padding: 30px 20px;">
-                        <h1 style="color: #ffffff; margin: 0; font-size: 24px; text-transform: uppercase;">Expo Belleza & Barbería</h1>
+                        <h1 style="color: #ffffff; margin: 0; font-size: 24px; text-transform: uppercase;">Expo Belleza & Barberías</h1>
                         <p style="color: #a0d1d1; margin-top: 5px; font-size: 14px;">2027 | WTC México</p>
                       </td>
                     </tr>
