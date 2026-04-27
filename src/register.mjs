@@ -6,7 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const docClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 
 const headers = {
-  "Access-Control-Allow-Origin": "https://expobellezaybarberias.com",
+  "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "POST,OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 };

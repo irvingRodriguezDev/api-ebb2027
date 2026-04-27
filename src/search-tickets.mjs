@@ -34,7 +34,7 @@ export const handler = async (event) => {
   }
 
   const params = {
-    TableName: "EBB_Attendees_2027",
+    TableName: "BWM_Attendees_2027",
     IndexName: "EmailIndex",
     KeyConditionExpression: "email = :e",
     FilterExpression: "used = :u",
