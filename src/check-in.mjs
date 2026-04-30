@@ -10,7 +10,7 @@ export const handler = async (event) => {
     return {
       statusCode: 200,
       headers: {
-        "Access-Control-Allow-Origin": "https://expobellezaybarberias.com",
+        "Access-Control-Allow-Origin": "https://beautyworldmexico.com.mx",
         "Access-Control-Allow-Methods": "POST,OPTIONS",
       },
     };

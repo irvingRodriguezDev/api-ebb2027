@@ -12,7 +12,7 @@ export const sendTicketEmail = async ({
 }) => {
   try {
     const { data, error } = await resend.emails.send({
-      from: "Beauty World Mexico <boletos@expobellezaybarberias.com>", // Tu dominio validado
+      from: "Beauty World Mexico <boletos@beautyworldmexico.com.mx>", // Tu dominio validado
       to: [customer_email],
       subject: `✨ ${ticketCount > 1 ? "Tus pases confirmados" : "Tu pase confirmado"} - Beauty World Mexico 2027`,
       html: `
@@ -87,7 +87,7 @@ export const sendTicketEmail = async ({
                                                         style="font-size: 20px; font-weight: 900; color: #3D2B2F; font-family: 'Courier New', Courier, monospace;">${code}</span>
                                                 </td>
                                                 <td align="right">
-                                                    <a href="https://expobellezaybarberias.com/ticket/${code}"
+                                                    <a href="https://beuatyworldmexico.com.mx/ticket/${code}"
                                                         style="background-color: #ee6f97; color: #3D2B2F; padding: 12px 24px; text-decoration: none; border-radius: 12px; font-size: 12px; font-weight: 900; display: inline-block; text-transform: uppercase; letter-spacing: 1px;">
                                                         VER TICKET
                                                     </a>

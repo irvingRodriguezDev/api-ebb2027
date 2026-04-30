@@ -10,7 +10,7 @@ export const handler = async (event) => {
   const captchaToken = event.queryStringParameters?.captchaToken;
   const headers = {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "https://expobellezaybarberias.com",
+    "Access-Control-Allow-Origin": "https://beautyworldmexico.com.mx",
     "Access-Control-Allow-Methods": "GET,OPTIONS",
   };
   const isHuman = await validateCaptcha(captchaToken);

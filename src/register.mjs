@@ -67,8 +67,8 @@ export const handler = async (event) => {
       mode: "payment",
       locale: "es",
       customer_email: email.toLowerCase().trim(),
-      success_url: `https://expobellezaybarberias.com/payment-success?email=${email}`,
-      cancel_url: `https://expobellezaybarberias.com/`,
+      success_url: `https://beautyworldmexico.com.mx/payment-success?email=${email}`,
+      cancel_url: `https://beautyworldmexico.com.mx/`,
       metadata: {
         fullname,
         customer_email: email.toLowerCase().trim(),
