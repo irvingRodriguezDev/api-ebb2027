@@ -10,7 +10,7 @@ export const handler = async (event) => {
   const captchaToken = event.queryStringParameters?.captchaToken;
   const headers = {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "https://beautyworldmexico.com.mx",
+    "Access-Control-Allow-Origin": "https://beautybusinessmexico.com",
     "Access-Control-Allow-Methods": "GET,OPTIONS",
   };
   const isHuman = await validateCaptcha(captchaToken);
@@ -34,7 +34,7 @@ export const handler = async (event) => {
   }
 
   const params = {
-    TableName: "BWM_Attendees_2027",
+    TableName: "BBM_Attendees_2027",
     IndexName: "EmailIndex",
     KeyConditionExpression: "email = :e",
     FilterExpression: "used = :u",

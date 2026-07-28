@@ -45,10 +45,10 @@ export const handler = async (event) => {
     };
 
     const priceIds = {
-      SINGLE_DAY: "price_1TKPQ3GhlSOTRiSh5YsrtiSL",
-      TWO_DAYS: "price_1TKPQUGhlSOTRiSh4sne9uR4",
-      GROUP_SINGLE: "price_1TKPR2GhlSOTRiShVYOyA8Q7",
-      GROUP_TWO: "price_1TKPRVGhlSOTRiSh7ALXkggK",
+      SINGLE_DAY: "price_1TW2ewAqcmaR42HxhuBXZqJx",
+      TWO_DAYS: "price_1TW2f9AqcmaR42HxsHkOCbTF",
+      GROUP_SINGLE: "price_1TW2fLAqcmaR42HxS1bgu6rK",
+      GROUP_TWO: "price_1TW2fXAqcmaR42HxrMczWqCL",
     };
 
     // Validar que el tipo de acceso enviado existe
@@ -67,8 +67,8 @@ export const handler = async (event) => {
       mode: "payment",
       locale: "es",
       customer_email: email.toLowerCase().trim(),
-      success_url: `https://beautyworldmexico.com.mx/payment-success?email=${email}`,
-      cancel_url: `https://beautyworldmexico.com.mx/`,
+      success_url: `https://beautybusinessmexico.com/payment-success?email=${email}`,
+      cancel_url: `https://beautybusinessmexico.com/`,
       metadata: {
         fullname,
         customer_email: email.toLowerCase().trim(),

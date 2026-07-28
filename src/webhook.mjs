@@ -42,7 +42,7 @@ export const handler = async (event) => {
 
     const checkExisting = await docClient.send(
       new ScanCommand({
-        TableName: "BWM_Attendees_2027",
+        TableName: "BBM_Attendees_2027",
         FilterExpression: "sessionId = :s",
         ExpressionAttributeValues: { ":s": sessionId },
         Limit: 1, // Solo necesitamos saber si hay al menos uno
@@ -91,7 +91,7 @@ export const handler = async (event) => {
     // Generamos todos los códigos PRIMERO
     for (let i = 0; i < ticketCount; i++) {
       generatedTickets.push(
-        `BWM27-${Math.random().toString(36).toUpperCase().substring(2, 10)}`,
+        `BBM27-${Math.random().toString(36).toUpperCase().substring(2, 10)}`,
       );
     }
 

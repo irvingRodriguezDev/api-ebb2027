@@ -12,9 +12,9 @@ export const sendTicketEmail = async ({
 }) => {
   try {
     const { data, error } = await resend.emails.send({
-      from: "Beauty World Mexico <boletos@beautyworldmexico.com.mx>", // Tu dominio validado
+      from: "Beauty Business Mexico <boletos@beautybusinessmexico.com>", // Tu dominio validado
       to: [customer_email],
-      subject: `✨ ${ticketCount > 1 ? "Tus pases confirmados" : "Tu pase confirmado"} - Beauty World Mexico 2027`,
+      subject: `✨ ${ticketCount > 1 ? "Tus pases confirmados" : "Tu pase confirmado"} - Beauty Business Mexico 2027`,
       html: `
 
 <body style="margin: 0; padding: 0; background-color: #FFF5F7; font-family: 'Segoe UI', Arial, sans-serif;">
@@ -32,7 +32,7 @@ export const sendTicketEmail = async ({
                             <img src="https://staticsbwm.s3.us-east-2.amazonaws.com/LOGO_BLANCO.png" alt="Logo" style="max-width: 100%; height: auto;" nodownloade  />
                             <p
                                 style="color: rgba(255,255,255,0.6); margin-top: 5px; font-size: 12px; font-weight: 700;">
-                                2027 | WTC CIUDAD DE MÉXICO</p>
+                                2027 | EXPO REFORMA CIUDAD DE MÉXICO</p>
                         </td>
                     </tr>
 
@@ -87,7 +87,7 @@ export const sendTicketEmail = async ({
                                                         style="font-size: 20px; font-weight: 900; color: #3D2B2F; font-family: 'Courier New', Courier, monospace;">${code}</span>
                                                 </td>
                                                 <td align="right">
-                                                    <a href="https://beuatyworldmexico.com.mx/ticket/${code}"
+                                                    <a href="https://beautybusinessmexico.com/ticket/${code}"
                                                         style="background-color: #ee6f97; color: #3D2B2F; padding: 12px 24px; text-decoration: none; border-radius: 12px; font-size: 12px; font-weight: 900; display: inline-block; text-transform: uppercase; letter-spacing: 1px;">
                                                         VER TICKET
                                                     </a>
@@ -106,7 +106,7 @@ export const sendTicketEmail = async ({
                                     <td align="center"
                                         style="background-color: #3D2B2F; border-radius: 12px; padding: 15px;">
                                         <p style="margin: 0; font-size: 12px; color: #ffffff; font-weight: 500;">
-                                            Presenta estos códigos en el WTC para recibir tus pulseras oficiales.
+                                            Presenta estos códigos en el área de recepción de Expo Reforma para recibir tus pulseras oficiales.
                                         </p>
                                     </td>
                                 </tr>
@@ -118,7 +118,7 @@ export const sendTicketEmail = async ({
                         <td align="center" style="padding: 0 30px 40px;">
                             <p style="font-size: 11px; color: #5C464A; opacity: 0.5; margin: 0;">
                                 Este es un correo automático. No es necesario responder.<br>
-                                © 2026 BEAUTY WORLD MEXICO - Ciudad de México.
+                                © 2026 BEAUTY BUSINESS MEXICO - Ciudad de México.
                             </p>
                         </td>
                     </tr>
