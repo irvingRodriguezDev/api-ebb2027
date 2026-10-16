@@ -118,7 +118,7 @@ export const sendTicketEmail = async ({
                         <td align="center" style="padding: 0 30px 40px;">
                             <p style="font-size: 11px; color: #5C464A; opacity: 0.5; margin: 0;">
                                 Este es un correo automático. No es necesario responder.<br>
-                                © 2026 BEAUTY BUSINESS MEXICO - Ciudad de México.
+                                © 2027 BEAUTY BUSINESS MEXICO - CDMX.
                             </p>
                         </td>
                     </tr>

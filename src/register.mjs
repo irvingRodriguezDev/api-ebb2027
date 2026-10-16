@@ -38,17 +38,13 @@ export const handler = async (event) => {
     }
     // 3. Mapeo de accesos y precios
     const accessLabels = {
-      SINGLE_DAY: "UN DÍA",
-      TWO_DAYS: "DOS DÍAS",
-      GROUP_SINGLE: "GRUPAL UN DÍA",
-      GROUP_TWO: "GRUPAL DOS DÍAS",
+      FIRST_DAY: "DIA 13 DE MARZO",
+      SECOND_DAY: "DIA 14 DE MARZO",
     };
 
     const priceIds = {
-      SINGLE_DAY: "price_1TW2ewAqcmaR42HxhuBXZqJx",
-      TWO_DAYS: "price_1TW2f9AqcmaR42HxsHkOCbTF",
-      GROUP_SINGLE: "price_1TW2fLAqcmaR42HxS1bgu6rK",
-      GROUP_TWO: "price_1TW2fXAqcmaR42HxrMczWqCL",
+      FIRST_DAY: "price_1UREe7IzN1aWLa3r474yMmqQ",
+      SECOND_DAY: "price_1UREeUIzN1aWLa3rbaFLb416",
     };
 
     // Validar que el tipo de acceso enviado existe

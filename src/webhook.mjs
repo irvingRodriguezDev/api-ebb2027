@@ -82,10 +82,8 @@ export const handler = async (event) => {
 
     const generatedTickets = [];
     const accessLabels = {
-      "UN DÍA": "UN DÍA",
-      "DOS DÍAS": "DOS DÍAS", // Corregido el typo de "TOW"
-      "GRUPAL UN DÍA": "GRUPAL UN DÍA",
-      "GRUPAL DOS DÍAS": "GRUPAL DOS DÍAS",
+      "DIA 13 DE MARZO": "DIA 13 DE MARZO",
+      "DIA 14 DE MARZO": "DIA 14 DE MARZO", // Corregido el typo de "TOW"
     };
     const labelAccessType = accessLabels[accessType] || "NO ESPECIFICADO";
     // Generamos todos los códigos PRIMERO
